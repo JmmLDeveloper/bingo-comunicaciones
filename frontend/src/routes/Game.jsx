@@ -65,7 +65,7 @@ function Game() {
       setPlayers([...players, response.player]);
     });
 
-    socket.on("num_announced", ({ number }) => {
+    socket.on("num-announced", ({ number }) => {
       const newAnnouncedNumbers = [...announcedNumbers, number];
       if (checkWin(table, newAnnouncedNumbers)) {
         socket.emit("claim-win");
@@ -73,12 +73,12 @@ function Game() {
       setAnnouncedNumbers([...announcedNumbers, number]);
     });
 
-    socket.on("win_announced", (response) => {
+    socket.on("win-announced", (response) => {
       setWinner(response.winner);
     });
 
     socket.on("player-disconnected", ({ player }) => {
-      setPlayers([...players.filter((p) => p.id != player.id), player]);
+      setPlayers([...players.filter((p) => p.id != player.id)]);
     });
 
     socket.on("lobby-closed", ({ mode }) => {
@@ -88,8 +88,8 @@ function Game() {
     return () => {
       socket.off("table-assigned");
       socket.off("game-has-started");
-      socket.off("num_announced");
-      socket.off("win_announced");
+      socket.off("num-announced");
+      socket.off("win-announced");
       socket.off("player-connected");
       socket.off("player-disconnected");
     };

@@ -52,7 +52,7 @@ const assignEvents = (io) => {
       game.numbersLeft.splice(idx, 1);
       game.numbersSelected.push(num);
 
-      emitToAllPlayers("num_announced", { number: num });
+      emitToAllPlayers("num-announced", { number: num });
     };
     emitToAllPlayers("game-has-started");
     game.interval = setInterval(tick, 100);
@@ -121,7 +121,10 @@ const assignEvents = (io) => {
         players[playerIdx].online = false;
         for (const player of players) {
           io.to(player.id).emit("player-disconnected", {
-            player: players[playerIdx],
+            player: {
+              id:players[playerIdx].id,
+              name: players[playerIdx].name
+            },
           });
         }
       }
@@ -132,7 +135,7 @@ const assignEvents = (io) => {
         if (checkWin(getSocketPlayer().table, game.numbersSelected, game.mode)) {
           setTimeout(lobbyTick, 10 * 1000);
           clearInterval(game.interval);
-          emitToAllPlayers("win_announced", {
+          emitToAllPlayers("win-announced", {
             winner: {
               name: getSocketPlayer().name,
               id: getSocketPlayer().id,
