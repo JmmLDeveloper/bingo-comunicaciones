@@ -59,6 +59,9 @@ const assignEvents = (io) => {
   };
 
   io.on("connection", (socket) => {
+
+    console.log('client connected with id : ' + socket.id)
+
     const getSocketPlayer = () => {
       return players.find((p) => p.id == socket.id);
     };

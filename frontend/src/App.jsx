@@ -27,7 +27,7 @@ function App() {
 
 
     if (!socket) {
-      const s = io("http://localhost:3000");
+      const s = io("http://164.90.211.190:3000");
       s.on("connect", (info)=> {
         setReady(true)
         console.log('the connection has been established ',s.id)

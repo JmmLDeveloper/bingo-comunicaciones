@@ -6,7 +6,7 @@ const { assignEvents } = require("./socket-events");
 
 const app = express();
 const corsOption = {
-  origin: ["http://localhost:5173"],
+  origin: ["http://164.90.211.190"],
 };
 app.use(cors(corsOption));
 const server = http.createServer(app);
