@@ -27,7 +27,9 @@ function App() {
 
 
     if (!socket) {
-      const s = io("http://164.90.211.190:3000");
+
+      console.log(import.meta.env.VITE_BACKEND)
+      const s = io(import.meta.env.VITE_BACKEND);
       s.on("connect", (info)=> {
         setReady(true)
         console.log('the connection has been established ',s.id)

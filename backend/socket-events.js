@@ -16,7 +16,7 @@ const assignEvents = (io) => {
         player.table = generateTable();
         player.accepted = false;
         io.to(player.id).emit("table-assigned", {
-          table: player.table
+          table: player.table,
         });
         io.to(player.id).emit("lobby-closed", {
           mode: game.mode,
@@ -59,8 +59,11 @@ const assignEvents = (io) => {
   };
 
   io.on("connection", (socket) => {
+    const clientIds = Array.from(io.sockets.sockets.keys());
 
-    console.log('client connected with id : ' + socket.id)
+    socket.broadcast.emit("clients-connected", clientIds);
+
+    console.log("client connected with id : " + socket.id);
 
     const getSocketPlayer = () => {
       return players.find((p) => p.id == socket.id);
@@ -125,8 +128,8 @@ const assignEvents = (io) => {
         for (const player of players) {
           io.to(player.id).emit("player-disconnected", {
             player: {
-              id:players[playerIdx].id,
-              name: players[playerIdx].name
+              id: players[playerIdx].id,
+              name: players[playerIdx].name,
             },
           });
         }
@@ -134,8 +137,10 @@ const assignEvents = (io) => {
     };
 
     const clainWinHandler = () => {
-      if(game !== null) {
-        if (checkWin(getSocketPlayer().table, game.numbersSelected, game.mode)) {
+      if (game !== null) {
+        if (
+          checkWin(getSocketPlayer().table, game.numbersSelected, game.mode)
+        ) {
           setTimeout(lobbyTick, 10 * 1000);
           clearInterval(game.interval);
           emitToAllPlayers("win-announced", {
