@@ -61,7 +61,9 @@ const assignEvents = (io) => {
   io.on("connection", (socket) => {
     const clientIds = Array.from(io.sockets.sockets.keys());
 
-    socket.broadcast.emit("clients-connected", clientIds);
+
+
+    io.emit("clients-connected", clientIds);
 
     console.log("client connected with id : " + socket.id);
 
