@@ -6,6 +6,7 @@ const assignEvents = (io) => {
   let players = [];
 
   const lobbyTick = () => {
+    
     if (players.length > 1) {
       game = {
         started: false,
@@ -55,7 +56,7 @@ const assignEvents = (io) => {
       emitToAllPlayers("num-announced", { number: num });
     };
     emitToAllPlayers("game-has-started");
-    game.interval = setInterval(tick, 100);
+    game.interval = setInterval(tick, 1000);
   };
 
   io.on("connection", (socket) => {
